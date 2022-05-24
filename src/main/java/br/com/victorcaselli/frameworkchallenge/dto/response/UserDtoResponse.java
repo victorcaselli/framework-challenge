@@ -1,4 +1,4 @@
-package br.com.victorcaselli.frameworkchallenge.dto.request;
+package br.com.victorcaselli.frameworkchallenge.dto.response;
 
 import br.com.victorcaselli.frameworkchallenge.entities.User;
 import br.com.victorcaselli.frameworkchallenge.utils.ModelMapperUtils;
@@ -7,29 +7,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UserDtoRequest implements Serializable {
+public class UserDtoResponse implements Serializable {
 
-    private static final long serialVersionUID = 4252326377780763284L;
+    private static final long serialVersionUID = 3573613730395319622L;
 
+    private Long id;
     private String fullName;
-    @NotBlank
     private String email;
-    @NotBlank
-    @Size(min = 6)
-    private String password;
 
-
-    public UserDtoRequest toDto(User user){
-        return ModelMapperUtils.map(user, UserDtoRequest.class);
+    public static UserDtoResponse toDto(User user) {
+        return ModelMapperUtils.map(user, UserDtoResponse.class);
     }
 
     public User toEntity(){

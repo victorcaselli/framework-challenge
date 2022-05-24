@@ -1,6 +1,8 @@
 package br.com.victorcaselli.frameworkchallenge.services;
 
 import br.com.victorcaselli.frameworkchallenge.entities.User;
+import br.com.victorcaselli.frameworkchallenge.repositories.UserRepository;
+import br.com.victorcaselli.frameworkchallenge.services.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,14 +27,13 @@ public class UserServiceTest {
 
     @BeforeEach
     void setupAll(){
-        User user = userRepository.save(getBasicUser());
+        User user = userRepository.save(getBasicUser().toEntity());
         existingId = user.getId();
     }
 
     @Test
     public void uerShouldSaveWhenReceiveData(){
-        User user = getBasicUser().toEntity();
-        user = userService.save(user);
+        User user = userService.save(getBasicUser()).toEntity();
         assertNotNull(user.getId());
     }
 
@@ -44,18 +45,18 @@ public class UserServiceTest {
 
     @Test
     public void userShouldGetCorrectUserWhenIdIsFound(){
-        assertNotNull(userService.findById(existingId).get());
+        assertNotNull(userService.findById(existingId));
     }
 
     //TODO - Create a test to pageable list
     @Test
     public void userShouldGetNonEmptyListWhileFindAll(){
-        assertTrue(!userService.findAll().isEmpty());
+        assertFalse(userService.findAll().isEmpty());
     }
 
     @Test
     public void userShouldDeleteWhenDeleteServiceWasCalled(){
-        Long total = userRepository.count();
+        long total = userRepository.count();
 
         userService.deleteById(existingId);
 
@@ -67,6 +68,7 @@ public class UserServiceTest {
         assertThrows(UserNotFoundException.class, () -> userService.deleteById(nonExistingId));
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void userShouldUpdatedWhenUpdateServiceWasCalled(){
         String updateInformation = "John D. Undefined";
@@ -77,6 +79,6 @@ public class UserServiceTest {
 
         user = userRepository.save(user);
 
-        assertEquals(user.getFullName().equals(updateInformation));
+        assertEquals(user.getFullName(),updateInformation);
     }
 }
