@@ -6,19 +6,25 @@ import br.com.victorcaselli.frameworkchallenge.entities.User;
 import br.com.victorcaselli.frameworkchallenge.repositories.UserRepository;
 import br.com.victorcaselli.frameworkchallenge.services.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static br.com.victorcaselli.frameworkchallenge.dto.response.UserDtoResponse.toDto;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional(readOnly = true)
     public List<UserDtoResponse> findAll(){
@@ -36,6 +42,9 @@ public class UserService {
 
     @Transactional
     public UserDtoResponse save(UserDtoRequest userDtoRequest){
+        //TODO - Change this in the feature
+        userDtoRequest.setPassword(bCryptPasswordEncoder.encode(userDtoRequest.getPassword())); //Gambiarra rs
+
         return toDto(
                 userRepository.save(userDtoRequest.toEntity())
         );
@@ -62,5 +71,14 @@ public class UserService {
             throw new UserNotFoundException("Id not found");
         }
 
+    }
+
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return findByEmail(username).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }

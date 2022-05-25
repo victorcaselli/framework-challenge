@@ -4,3 +4,12 @@ spring:
       enabled: true
   jpa:
     show-sql: true
+security:
+  oauth2:
+    client:
+      client-id: framework
+      client-secret: framework
+
+jwt:
+  secret: JWT-SECRET
+  duration: 86400

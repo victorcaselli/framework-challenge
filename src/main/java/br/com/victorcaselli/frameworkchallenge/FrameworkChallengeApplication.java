@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //TODO - photos collection postman in the root project
 //TODO - Postgres configuration
 //TODO - create the README
+//TODO - Change deprecated security strategy
 
 
 //Optional features
