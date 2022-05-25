@@ -3,7 +3,7 @@ package br.com.victorcaselli.frameworkchallenge.services;
 import br.com.victorcaselli.frameworkchallenge.entities.User;
 import br.com.victorcaselli.frameworkchallenge.repositories.UserRepository;
 import br.com.victorcaselli.frameworkchallenge.services.exceptions.UserNotFoundException;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
