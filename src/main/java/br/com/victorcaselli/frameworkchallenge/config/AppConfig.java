@@ -1,5 +1,8 @@
 package br.com.victorcaselli.frameworkchallenge.config;
 
+import br.com.victorcaselli.frameworkchallenge.enums.RoleType;
+import br.com.victorcaselli.frameworkchallenge.services.RoleService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -11,10 +14,15 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.List;
+
 
 @Configuration
 public class AppConfig {
+
+
 
     @Bean
     public ModelMapper modelMapper(){
@@ -46,7 +54,7 @@ public class AppConfig {
 
 
     @Bean
-    BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 }

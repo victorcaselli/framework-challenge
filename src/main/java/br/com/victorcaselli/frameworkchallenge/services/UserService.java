@@ -3,6 +3,7 @@ package br.com.victorcaselli.frameworkchallenge.services;
 import br.com.victorcaselli.frameworkchallenge.dto.request.UserDtoRequest;
 import br.com.victorcaselli.frameworkchallenge.dto.response.UserDtoResponse;
 import br.com.victorcaselli.frameworkchallenge.entities.User;
+import br.com.victorcaselli.frameworkchallenge.observables.UserObservable;
 import br.com.victorcaselli.frameworkchallenge.repositories.UserRepository;
 import br.com.victorcaselli.frameworkchallenge.services.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static br.com.victorcaselli.frameworkchallenge.dto.response.UserDtoResponse.toDto;
@@ -25,6 +28,8 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private Set<UserObservable> observables = new HashSet<>();
 
     @Transactional(readOnly = true)
     public List<UserDtoResponse> findAll(){
@@ -44,9 +49,10 @@ public class UserService implements UserDetailsService {
     public UserDtoResponse save(UserDtoRequest userDtoRequest){
         //TODO - Change this in the feature
         userDtoRequest.setPassword(bCryptPasswordEncoder.encode(userDtoRequest.getPassword())); //Gambiarra rs
-
+        User user = userRepository.save(userDtoRequest.toEntity());
+        startObservables(user);
         return toDto(
-                userRepository.save(userDtoRequest.toEntity())
+                user
         );
     }
 
@@ -71,6 +77,16 @@ public class UserService implements UserDetailsService {
             throw new UserNotFoundException("Id not found");
         }
 
+    }
+
+
+    public void subscribe(UserObservable observable){
+        this.observables.add(observable);
+    }
+
+
+    public void startObservables(User user){
+        observables.forEach(object -> object.onSave(user));
     }
 
     public Optional<User> findByEmail(String email){
