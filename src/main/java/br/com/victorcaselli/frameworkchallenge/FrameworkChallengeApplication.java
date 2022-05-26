@@ -4,8 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 //TODO - user postman in the root project
-//TODO - user's post feature - "Suportar a adição e exclusão de comentários em posts."
-//TODO - security features about user's post - "Os posts poderão ser visíveis a todos os usuários. Apenas o criador do comentário poderá ter permissão para excluí-lo."
 //TODO - user's photos collection and security feature - "Permitir a criação de álbuns de fotos. As fotos dos álbuns poderão ser visíveis a todos os usuários. Apenas o dono de um álbum poderá excluí-lo."
 //TODO - Check validations in the DTO classes
 //TODO - user's post postman in the root project
@@ -15,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //TODO - Complete controllers
 //TODO - Create custom exceptions
 //TODO - Create exception handler
+//TODO - Remove Warnings
 
 
 

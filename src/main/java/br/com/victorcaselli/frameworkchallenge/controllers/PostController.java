@@ -27,6 +27,22 @@ public class PostController {
         return ResponseEntity.ok().body(postService.save(request));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<PostDtoResponse>> findAll(){
+        return ResponseEntity.ok().body(postService.findAll());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        postService.deletePostById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDtoResponse> updateById(@PathVariable Long id, @RequestBody PostDtoRequest request){
+        return ResponseEntity.ok().body(postService.update(request, id));
+    }
+
 //    @GetMapping("/search")
 //    public ResponseEntity<PostDtoResponse> search(
 //            @RequestParam String text,

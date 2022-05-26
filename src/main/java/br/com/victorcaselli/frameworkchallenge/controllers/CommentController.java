@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/comments")
@@ -18,5 +20,21 @@ public class CommentController {
     @PostMapping("/{id}")
     public ResponseEntity<CommentDtoResponse> save(@RequestBody CommentDtoRequest request, @PathVariable("id") Long postId){
         return ResponseEntity.ok().body(commentService.save(request, postId));
+    }
+
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<CommentDtoResponse>> findAllByPostId(@PathVariable("id") Long postId){
+        return ResponseEntity.ok().body(commentService.findAllByPostId(postId));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommentDtoResponse> findById(@PathVariable Long id){
+        return ResponseEntity.ok().body(commentService.findById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable  Long id){
+        commentService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -7,6 +7,7 @@ import br.com.victorcaselli.frameworkchallenge.observables.UserObservable;
 import br.com.victorcaselli.frameworkchallenge.repositories.UserRepository;
 import br.com.victorcaselli.frameworkchallenge.services.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,9 +41,21 @@ public class UserService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public UserDtoResponse findById(Long id){
-        return toDto( userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"))
-        );
+        User user  = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if(!user.equals(getAuthenticatedUser())){
+            throw new IllegalArgumentException("Unauthorized");
+        }
+
+        return toDto(user);
+    }
+
+
+    @Transactional(readOnly = true)
+    public User internalFindById(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Transactional
@@ -79,6 +92,11 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional(readOnly = true)
+    public User getAuthenticatedUser(){
+        return findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
 
     public void subscribe(UserObservable observable){
         this.observables.add(observable);

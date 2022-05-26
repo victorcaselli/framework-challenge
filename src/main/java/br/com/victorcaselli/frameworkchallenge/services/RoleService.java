@@ -66,6 +66,12 @@ public class RoleService implements UserObservable {
         //TODO - create custom exception for roles
     }
 
+
+    @Transactional(readOnly = true)
+    public List<Role> findAll(){
+        return roleRepository.findAll();
+    }
+
     @Override
     public void onSave(User user) {
         Role role = roleRepository.findAll()

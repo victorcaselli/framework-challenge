@@ -28,7 +28,7 @@ public class User implements UserDetails, Serializable {
     private String email;
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "usr_id"),
+    @JoinTable(name = "FC_USR_ROLE", joinColumns = @JoinColumn(name = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id") )
     private final Set<Role> roles = new HashSet<>();
     @OneToMany(mappedBy = "user")

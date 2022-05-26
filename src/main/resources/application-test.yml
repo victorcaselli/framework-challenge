@@ -4,6 +4,7 @@ spring:
       enabled: true
   jpa:
     show-sql: true
+    defer-datasource-initialization: true
 security:
   oauth2:
     client:

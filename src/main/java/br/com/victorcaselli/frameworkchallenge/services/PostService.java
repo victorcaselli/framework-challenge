@@ -29,7 +29,14 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostDtoResponse> findAllByUserId(){
 
-        return postRepository.findAllByUserId(getAuthenticatedUser().getId())
+        return postRepository.findAllByUserId(userService.getAuthenticatedUser().getId())
+                .stream().map(PostDtoResponse::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostDtoResponse> findAll(){
+        return postRepository.findAll()
                 .stream().map(PostDtoResponse::toDto)
                 .collect(Collectors.toList());
     }
@@ -39,7 +46,7 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
-        if(!post.getUser().equals(getAuthenticatedUser())){
+        if(!post.getUser().equals(userService.getAuthenticatedUser())){
             return null;
         }
 
@@ -55,7 +62,7 @@ public class PostService {
     @Transactional
     public PostDtoResponse save(PostDtoRequest request){
         Post post = request.toEntity();
-        post.setUser(getAuthenticatedUser());
+        post.setUser(userService.getAuthenticatedUser());
         return toDto(postRepository.save(post));
     }
 
@@ -73,12 +80,6 @@ public class PostService {
     public void deletePostById(Long id){
         findById(id);
         postRepository.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public User getAuthenticatedUser(){
-        return userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
 }

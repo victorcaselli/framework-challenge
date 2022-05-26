@@ -5,10 +5,9 @@ import br.com.victorcaselli.frameworkchallenge.dto.response.UserDtoResponse;
 import br.com.victorcaselli.frameworkchallenge.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,5 +19,10 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDtoResponse> save(@RequestBody UserDtoRequest request){
         return ResponseEntity.ok().body(userService.save(request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDtoResponse>> findAll(){
+        return ResponseEntity.ok().body(userService.findAll());
     }
 }
