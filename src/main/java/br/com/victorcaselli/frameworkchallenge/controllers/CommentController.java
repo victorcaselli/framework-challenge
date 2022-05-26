@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static br.com.victorcaselli.frameworkchallenge.utils.UriUtils.getUri;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/comments")
@@ -19,7 +21,9 @@ public class CommentController {
 
     @PostMapping("/{id}")
     public ResponseEntity<CommentDtoResponse> save(@RequestBody CommentDtoRequest request, @PathVariable("id") Long postId){
-        return ResponseEntity.ok().body(commentService.save(request, postId));
+        CommentDtoResponse response = commentService.save(request, postId);
+
+        return ResponseEntity.created(getUri(response.getId())).body(response);
     }
 
     @GetMapping("/all/{id}")

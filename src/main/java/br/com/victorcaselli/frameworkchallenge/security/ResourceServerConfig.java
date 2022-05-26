@@ -10,6 +10,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import static br.com.victorcaselli.frameworkchallenge.enums.RoleType.ADMIN;
+import static br.com.victorcaselli.frameworkchallenge.enums.RoleType.USER;
+
 @RequiredArgsConstructor
 @Configuration
 @EnableResourceServer
@@ -34,8 +37,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-                .antMatchers("/photo-collection").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/users").hasRole(ADMIN.getDescription())
+                .antMatchers("/photo-collection").hasAnyRole(ADMIN.getDescription(), USER.getDescription())
                 .anyRequest().authenticated();
 
         http.cors().configurationSource(corsConfigurationSource);

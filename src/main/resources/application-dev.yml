@@ -1,12 +1,12 @@
 spring:
   datasource:
     url: jdbc:postgresql://ec2-44-196-174-238.compute-1.amazonaws.com:5432/d6sod1kb5isrul
-    username: ${DEB_DEV_USER}
+    username: ${DB_DEV_USER}
     password: ${DB_DEV_PASS}
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: true
+      ddl-auto: none
     defer-datasource-initialization: false
 #    properties:
 #      javax:
@@ -21,7 +21,7 @@ security:
   oauth2:
     client:
       client-id: framework
-      client-secret: framewoek
+      client-secret: framework
 
 jwt:
   secret: JWT-SECRET

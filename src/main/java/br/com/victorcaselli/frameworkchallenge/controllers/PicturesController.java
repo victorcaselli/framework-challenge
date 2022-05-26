@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static br.com.victorcaselli.frameworkchallenge.utils.UriUtils.getUri;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/pictures")
@@ -23,7 +25,8 @@ public class PicturesController {
 
     @PostMapping("/{id}")
     public ResponseEntity<PictureDtoResponse> save(@RequestBody PictureDtoRequest request, @PathVariable("id") Long photoCollectionId){
-        return ResponseEntity.ok().body(pictureService.save(request, photoCollectionId));
+        PictureDtoResponse response = pictureService.save(request,photoCollectionId);
+        return ResponseEntity.created(getUri(response.getId())).body(response);
     }
 
     @DeleteMapping("/{id}")

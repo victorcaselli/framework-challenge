@@ -6,8 +6,12 @@ import br.com.victorcaselli.frameworkchallenge.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
+
+import static br.com.victorcaselli.frameworkchallenge.utils.UriUtils.getUri;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,7 +22,9 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDtoResponse> save(@RequestBody UserDtoRequest request){
-        return ResponseEntity.ok().body(userService.save(request));
+        UserDtoResponse response = userService.save(request);
+
+        return ResponseEntity.created(getUri(response.getId())).body(response);
     }
 
     @GetMapping

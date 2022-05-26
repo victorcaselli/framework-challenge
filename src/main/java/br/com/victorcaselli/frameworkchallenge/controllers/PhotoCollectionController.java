@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static br.com.victorcaselli.frameworkchallenge.utils.UriUtils.getUri;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/photo-collection")
@@ -29,7 +31,9 @@ public class PhotoCollectionController {
 
     @PostMapping
     public ResponseEntity<PhotoCollectionDtoResponse> save (@RequestBody PhotoCollectionDtoRequest request){
-        return ResponseEntity.ok().body(photoCollectionService.save(request));
+        PhotoCollectionDtoResponse response = photoCollectionService.save(request);
+
+        return ResponseEntity.created(getUri(response.getId())).body(response);
     }
 
 

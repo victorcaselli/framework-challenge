@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static br.com.victorcaselli.frameworkchallenge.utils.UriUtils.getUri;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/posts")
@@ -24,7 +26,9 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostDtoResponse> save(@RequestBody PostDtoRequest request){
-        return ResponseEntity.ok().body(postService.save(request));
+        PostDtoResponse response = postService.save(request);
+
+        return ResponseEntity.created(getUri(response.getId())).body(response);
     }
 
     @GetMapping("/all")

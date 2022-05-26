@@ -29,18 +29,15 @@ public class RoleService implements UserObservable {
     @Transactional
     public void checkIfRolesExists(List<RoleType> roleTypes){
 
-        List<Role> roles = roleRepository.findAll();
+        List<String> roles = roleRepository.findAll()
+                .stream().map(Role::getAuthority)
+                .collect(Collectors.toList());
+
 
         if(!roles.isEmpty()){
             List<RoleType> unsaved = roleTypes.stream()
-                    .filter(object -> {
-                        for (Role role : roles) {
-                            String r = "ROLE_"+object.getDescription();
-                            return !r.equalsIgnoreCase(role.getAuthority());
-
-                        }
-                        return true;
-                    }).collect(Collectors.toList());
+                            .filter(object -> !roles.contains("ROLE_"+object.getDescription()))
+                            .collect(Collectors.toList());
 
             roleRepository.saveAll(
                     unsaved.stream()
