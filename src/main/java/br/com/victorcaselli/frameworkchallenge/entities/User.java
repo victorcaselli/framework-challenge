@@ -35,6 +35,8 @@ public class User implements UserDetails, Serializable {
     private List<Post> posts = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<PhotoCollection> photoCollections = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
