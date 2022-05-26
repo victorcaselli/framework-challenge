@@ -4,17 +4,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 //TODO - user postman in the root project
-//TODO - user's photo collection and security feature - "Permitir a criação de álbuns de fotos. As fotos dos álbuns poderão ser visíveis a todos os usuários. Apenas o dono de um álbum poderá excluí-lo."
 //TODO - Check validations in the DTO classes
 //TODO - user's post postman in the root project
 //TODO - photos collection postman in the root project
 //TODO - Postgres configuration
 //TODO - create the README
-//TODO - Complete controllers
 //TODO - Create custom exceptions
 //TODO - Create exception handler
 //TODO - Remove Warnings
-
+//TODO - Change all save controller from status 200 to 201 created
+//TODO - Change static role string in the resource server config to Enum
 
 
 //Optional features

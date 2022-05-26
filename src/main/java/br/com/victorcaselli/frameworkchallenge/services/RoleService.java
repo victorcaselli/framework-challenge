@@ -36,10 +36,10 @@ public class RoleService implements UserObservable {
                     .filter(object -> {
                         for (Role role : roles) {
                             String r = "ROLE_"+object.getDescription();
-                            return r.equalsIgnoreCase(role.getAuthority());
+                            return !r.equalsIgnoreCase(role.getAuthority());
 
                         }
-                        return false;
+                        return true;
                     }).collect(Collectors.toList());
 
             roleRepository.saveAll(
