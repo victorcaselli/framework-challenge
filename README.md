@@ -40,6 +40,6 @@ DB_DEV_USER - user of the database
 DB_DEV_PASS - pass of the database
 
 
-For another questions please let menssage
+For another questions please let message
 
 Victor D. Caselli
