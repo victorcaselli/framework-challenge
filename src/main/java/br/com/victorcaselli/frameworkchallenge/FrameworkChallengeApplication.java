@@ -3,13 +3,9 @@ package br.com.victorcaselli.frameworkchallenge;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//TODO - user postman in the root project
 //TODO - Check validations in the DTO classes
-//TODO - user's post postman in the root project
-//TODO - photos collection postman in the root project
 //TODO - create the README
 //TODO - Create custom exceptions
-//TODO - Create exception handler
 //TODO - Remove Warnings
 
 
