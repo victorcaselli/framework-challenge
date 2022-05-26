@@ -30,7 +30,7 @@ You Can:
 
 ### How to use
 This project was published on heroku using their database (postgres), follow this link -> http://framework-challenge-db.herokuapp.com/framekwork/api/v1/
-You can use the postman collection inside the root project in the folder "postman)
+You can use the postman collection inside the root project in the folder "postman"
 
 If you want to download that project, please dont forget of the environments vars.
 
