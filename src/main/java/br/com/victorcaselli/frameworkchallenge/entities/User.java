@@ -7,10 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -34,6 +31,10 @@ public class User implements UserDetails, Serializable {
     @JoinTable(joinColumns = @JoinColumn(name = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id") )
     private final Set<Role> roles = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
